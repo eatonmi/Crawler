@@ -154,9 +154,6 @@ namespace Crawler
         private IFileSystemInteractor _fsinteractor;
         public List<CrawlResult> ResultsList { get; set; } 
 
-        
-
-
         public Bot(Website website, Log l,DatabaseAccessor dba, IWebInteractor wi, IFileSystemInteractor fsi)
         {
             _baseurl = website.url;
@@ -165,6 +162,7 @@ namespace Crawler
             _dba = dba;
             _webinteractor = wi;
             _fsinteractor = fsi;
+
 
             ResultsList = new List<CrawlResult>();
         }
@@ -208,6 +206,7 @@ namespace Crawler
             }
 
             int i = 0;
+            
             while (i < relativeMatches.Count)
             {
                 //parse the found files for more refs and make sure 
@@ -225,6 +224,7 @@ namespace Crawler
                     }
                 }
                 _log.writeInfo(String.Format("Writing html for {0} to file...",match.RelPath));
+                Console.Out.WriteLine(String.Format("Writing html for {0} to file...", match.RelPath));
                 _fsinteractor.WriteStringToNewFile(newResult.Html,match.RelPath);
                 _log.writeInfo("Done");
 
@@ -239,7 +239,7 @@ namespace Crawler
                 returnList.Add(newResult);
                 i++;
             }
-
+            
             return returnList;
 
         }
