@@ -34,13 +34,6 @@ class Program
                 arguments[2] = email;
 
                 var worker = new Worker(arguments);
-/*
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.FileName = Assembly.GetExecutingAssembly().Location;
-                info.Arguments = path + " " + level + " " + email + " run";
-                info.UseShellExecute = false;
-                info.CreateNoWindow = true;
-*/
                 do
                 {
                     while(!Console.KeyAvailable && worker.getIsBusy())
@@ -52,11 +45,7 @@ class Program
                 if(worker.getIsBusy())
                 {
                     worker.cancelWork();
-                    Console.WriteLine("Crawl Cancelled");
                 }
-
-                Console.WriteLine("Complete. Press any key to continue...");
-                Console.Read();
             }else
             {
                 Console.Out.WriteLine("Correct useage:\n\nInteractive:\n\tCrawler.exe\nAutomatic:\n\tCrawler.exe <url> <crawl level> <response email address>");
@@ -78,12 +67,14 @@ public class Worker
         worker.WorkerSupportsCancellation = true;
         worker.WorkerReportsProgress = true;
         worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
         worker.RunWorkerAsync(arguments);
     }
 
     public void cancelWork()
     {
         this.worker.CancelAsync();
+        Console.WriteLine("Crawling Canceled. Press any key to continue...");
     }
 
     public bool getIsBusy()
@@ -96,5 +87,20 @@ public class Worker
         var arguments = (string[]) e.Argument;
 
         var crawler = new Crawler.CrawlerController(arguments[0], Int32.Parse(arguments[1]), arguments[2]);
+    }
+
+    private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        if (e.Error != null)
+        {
+            Console.Write("Crawling Error: " + e.Error.Message);
+            Console.WriteLine("Press any key to continue...");
+            Console.Read();
+        }else
+        {
+
+            Console.WriteLine("Crawling Completed. Press any key to continue...");
+            Console.Read();
+        }
     }
 }
