@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Crawler
 {
-    public class DatabaseAccessor
+    public class DatabaseAccessor : IDatabaseAccessor
     {
         /* And we have a default user!  WOO! */
         private string connectionDetails;
@@ -240,6 +240,44 @@ namespace Crawler
                 }
             }
             return websiteID;
+        }
+
+        public List<String> RetrieveVulnerabilities(string url)
+        {
+            List<String> result = new List<string>();
+
+            String commandString = "getWebsiteVulnerabilities";
+
+            SqlCommand command = new SqlCommand(commandString, con);
+            command.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter urlParam = new SqlParameter();
+            urlParam.ParameterName = "@url";
+            urlParam.SqlDbType = SqlDbType.VarChar;
+            urlParam.Size = 500;
+            urlParam.Direction = ParameterDirection.Input;
+            command.Parameters.Add(urlParam);
+
+            try
+            {
+                con.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read())
+                {
+                    result.Add(reader["Details"].ToString());
+                }
+            }
+            catch (SqlException e)
+            {
+                string msg = "";
+                for (int i = 0; i < e.Errors.Count; i++)
+                {
+                    msg += "Error #" + i + " Message: " + e.Errors[i].Message + "\n";
+                }
+                databaseLogger.writeError(msg);
+            }
+
+            return result;
         }
 
    }

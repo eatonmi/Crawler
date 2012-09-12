@@ -7,13 +7,13 @@ namespace Crawler
 {
     public abstract class CrawlerPlugin
     {
-        protected DatabaseAccessor db;
+        protected IDatabaseAccessor db;
         protected Website website;
         protected int crawlID;
         protected Log log;
 
         /* Class methods */
-        public CrawlerPlugin(Website website, DatabaseAccessor db, int crawlID, Log l)
+        public CrawlerPlugin(Website website, IDatabaseAccessor db, int crawlID, Log l)
         {
             this.db = db;
             this.website = website;

@@ -15,7 +15,7 @@ namespace Crawler
     {
         private List<String> searchStringList;
         private List<String> descriptionList;
-        public HTMLParsingModule(Website w, DatabaseAccessor db, int id, Log log)
+        public HTMLParsingModule(Website w, IDatabaseAccessor db, int id, Log log)
             : base(w, db, id, log)
         {
             searchStringList = new List<String>();

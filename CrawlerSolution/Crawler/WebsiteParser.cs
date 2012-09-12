@@ -11,7 +11,7 @@ namespace Crawler
     {
         private FileSystemInteractor fsInteractor;
 
-        public WebsiteParser(Website website, DatabaseAccessor db, int crawlID, Log l, FileSystemInteractor fs)
+        public WebsiteParser(Website website, IDatabaseAccessor db, int crawlID, Log l, FileSystemInteractor fs)
             : base(website, db, crawlID, l)
         {
             fsInteractor = fs;

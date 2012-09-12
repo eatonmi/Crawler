@@ -9,11 +9,11 @@ namespace Crawler
     class HttpHeaderPlugin : CrawlerPlugin
     {
         private Website website;
-        private DatabaseAccessor db;
+        private IDatabaseAccessor db;
         private int crawlID;
         private Log logger;
 
-        public HttpHeaderPlugin(Website website, DatabaseAccessor db, int crawlID, Log l) : base(website, db, crawlID, l)
+        public HttpHeaderPlugin(Website website, IDatabaseAccessor db, int crawlID, Log l) : base(website, db, crawlID, l)
         {
             this.website = website;
             this.db = db;

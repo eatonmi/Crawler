@@ -12,14 +12,12 @@ namespace Crawler
     {
         static List<String> result;
         static private Log logger;
-        static private DateTime lastTSLRevision; 
         static private String preNextRevision = "1/8/2011";
         static private String NextRevision = "1/7/2012";
-        static private String[] CertificateAuthorities = { "GoDaddy.com, Inc." };
         private Website web;
         private int crawlID;
 
-        public SSLConfirmationPlugin(Website website, DatabaseAccessor db, int crawlID, Log l)
+        public SSLConfirmationPlugin(Website website, IDatabaseAccessor db, int crawlID, Log l)
            : base(website, db, crawlID, l)
         {
             result = new List<String>();
@@ -28,22 +26,10 @@ namespace Crawler
             this.crawlID = crawlID;
 
             /* Ensure we're not doing the effective date stuff wrong */
-            if (DateTime.Now.CompareTo(DateTime.Parse(NextRevision)) > 0)
-            {
-                lastTSLRevision = DateTime.Parse(preNextRevision);
-                logger.writeDebug("TLS revision set to " + lastTSLRevision.ToShortDateString());
-            }
-            else
-            {
-                lastTSLRevision = DateTime.Parse(NextRevision);
-                logger.writeDebug("TLS revision set to " + lastTSLRevision.ToShortDateString());
-            }
         }
 
         public override List<String> analyzeSite()
         {
-            List<String> result = new List<String>();
-            
             log.writeInfo("Beginning SSL Confirmation");
 
             /* Jank.  REAL jank.  Need to ensure that we have a secure page to test rather than
@@ -101,12 +87,6 @@ namespace Crawler
             /* Check the effective date to ensure it's after the latest TLS protocol update */
             DateTime effDate = DateTime.Parse(certificate.GetEffectiveDateString());
             logger.writeInfo("Certificate is effective on " + certificate.GetEffectiveDateString());
-
-            if (effDate.CompareTo(lastTSLRevision) < 0)
-            {
-                result.Add("Effective Date of SSL Certificate before last TLS revision");
-                logger.writeInfo("Certificate effective before most recent TLS revision");
-            }
 
             /* Check Expiration Date */
             DateTime expDate = DateTime.Parse(certificate.GetExpirationDateString());

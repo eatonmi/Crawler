@@ -40,9 +40,11 @@ namespace Crawler
             log.writeInfo("Website: " + path + " == CrawlLevel: " + depth.ToString());
             log.writeInfo("Running version: " + aName.Version.ToString());
 
+            
             //initalize the database accessor class
             log.writeDebug("Creating database object");
-            DatabaseAccessor dbAccess = null;
+            IDatabaseAccessor dbAccess = null;
+            /*
             try
             {
                 dbAccess = new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
@@ -54,6 +56,7 @@ namespace Crawler
                 log.writeError("Error creating database connection: " + e.Message);
                 log.writeError("Reverting to default CrawlID");
             }
+             */ 
             if (dbAccess != null) dbAccess.addWebsite(path, null, null, null);
 
             int crawlID;
@@ -91,10 +94,20 @@ namespace Crawler
             log.writeDebug("Done parsing HTML");
 
             //Write to database
-            dbAccess.AddVulnerabilities(crawlID, result);
+            if (dbAccess != null)
+            {
+                dbAccess.AddVulnerabilities(crawlID, result);
+            }
+            else
+            {
+                log.writeDebug("Database Accessor null, not writing results to database");
+            }
 
             //notify
             log.writeDebug("Preparing to send message");
+            
+            //Commented this out to stop spamming Andrew
+            /*
             try
             {
                 NotifyClient.sendMessage(ConfigReader.ReadEmailAddress());
@@ -105,7 +118,7 @@ namespace Crawler
                 log.writeError("Error in Notify client: " + e.Message);
             }
             log.writeDebug("Done sending notification");
-            
+            */
             log.writeDebug("Destroying log....program exiting");
             log.destroy();
         }

@@ -148,13 +148,13 @@ namespace Crawler
         private String _baseurl;
         private Website _website;
         private Log _log;
-        private DatabaseAccessor _dba;
+        private IDatabaseAccessor _dba;
         public string BasePath;
         private IWebInteractor _webinteractor;
         private IFileSystemInteractor _fsinteractor;
         public List<CrawlResult> ResultsList { get; set; } 
 
-        public Bot(Website website, Log l,DatabaseAccessor dba, IWebInteractor wi, IFileSystemInteractor fsi)
+        public Bot(Website website, Log l, IDatabaseAccessor dba, IWebInteractor wi, IFileSystemInteractor fsi)
         {
             _baseurl = website.url;
             _website = website;
@@ -214,6 +214,13 @@ namespace Crawler
 
                 DepthResult match = relativeMatches[i];
                 CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
+
+                if(newResult.Html == null)
+                {
+                    i++;
+                    continue;
+                }
+
                 if (match.RelPath.IndexOf(".") == -1)
                 {
                     if (match.RelPath[match.RelPath.Length - 1] == '/')
