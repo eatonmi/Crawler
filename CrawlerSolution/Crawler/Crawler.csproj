@@ -57,6 +57,7 @@
     <Compile Include="CrawlerPlugin.cs" />
     <Compile Include="DatabaseAccessor.cs" />
     <Compile Include="IntegrationTests.cs" />
+    <Compile Include="IDatabaseAccessor.cs" />
     <Compile Include="IParsingStrategy.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NotifyClient.cs" />
