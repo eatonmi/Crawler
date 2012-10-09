@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Data;
@@ -20,6 +21,7 @@ namespace Crawler
             databaseLogger = logger;
             connectionDetails = connectionString;
             con = new SqlConnection(connectionDetails);
+            Debug.Assert(con != null);
         }
 
         public void AddVulnerabilities(int crawlID, List<String> details)

@@ -27,6 +27,9 @@ class Program
                 String email = Console.ReadLine();
                 Console.WriteLine("Crawling, press \'c\' to cancel the crawl");
 
+                Debug.Assert(!String.IsNullOrWhiteSpace(path));
+                Debug.Assert(!String.IsNullOrWhiteSpace(level));
+
                 string[] arguments = new string[3];
 
                 arguments[0] = path;

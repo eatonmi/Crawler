@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,7 @@ namespace Crawler
         public List<int> GetFrequencyFromFile(string file)
         {
             var fileStream = new StreamReader(file);
+            Debug.Assert(file != null);
             string text = fileStream.ReadToEnd();
             List<int> r = GetFrequencyFromString(text);
             fileStream.Close();

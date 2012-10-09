@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -24,6 +25,7 @@ namespace Crawler
             log.writeDebug("Beginning to list files");
 
            var file = new StreamWriter(fsInteractor.BasePath() + @"\\log_filegraph.txt");
+           Debug.Assert(file != null);
             file.WriteLine(fsInteractor.MakeFilesystemGraph());
            file.Close();
 

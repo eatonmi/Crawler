@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,7 @@ namespace Crawler
         {
             using (var file = new StreamReader(Filename))
             {
+                Debug.Assert(file != null);
                 while (!file.EndOfStream)
                 {
                     var current = file.ReadLine();
