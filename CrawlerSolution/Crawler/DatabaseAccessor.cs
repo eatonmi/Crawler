@@ -280,6 +280,13 @@ namespace Crawler
             return result;
         }
 
-   }
+        public void PrintReport()
+        {
+            System.Console.Out.WriteLine("DatabaseAccessor Report:");
+            System.Console.Out.WriteLine("  conectionDetails = " + this.connectionDetails);
+            System.Console.Out.WriteLine("  con present? = " + (this.con != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  logger present? = " + (this.databaseLogger != null ? "True" : "False"));
+        }
+    }
 
 }

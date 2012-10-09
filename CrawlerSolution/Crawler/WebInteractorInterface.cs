@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Crawler
 {
-    public interface IWebInteractor
+    public interface IWebInteractor : IReport
     {
 //        List<CrawlResult> CrawlSite(string url, int level);
 

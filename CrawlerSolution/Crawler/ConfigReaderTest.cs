@@ -9,8 +9,6 @@ namespace Crawler
     [TestFixture]
     class ConfigReaderTest
     {
-
-
         [Test]
         public void connectionStringTest()
         {

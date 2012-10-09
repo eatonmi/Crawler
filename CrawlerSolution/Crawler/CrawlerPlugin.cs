@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Crawler
 {
-    public abstract class CrawlerPlugin
+    public abstract class CrawlerPlugin : IReport
     {
         protected IDatabaseAccessor db;
         protected Website website;
@@ -30,7 +30,13 @@ namespace Crawler
          * TODO:  Add MustOverride*/
         public abstract List<String> analyzeSite();
 
-              
-
+        public void PrintReport()
+        {
+            System.Console.Out.WriteLine("CrawlerPlugin Report:");
+            System.Console.Out.WriteLine("  db present? = " + (db != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  website present? = " + (website != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  Crawl ID = " + this.crawlID.ToString());
+            System.Console.Out.WriteLine("  log present? = " + (log != null ? "True" : "False"));
+        }
     }
 }

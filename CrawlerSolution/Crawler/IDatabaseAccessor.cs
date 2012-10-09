@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Crawler
 {
-    public interface IDatabaseAccessor
+    public interface IDatabaseAccessor : IReport
     {
         void AddVulnerabilities(int crawlID, List<String> details);
         

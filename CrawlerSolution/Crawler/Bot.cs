@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Crawler
 {
-    public interface IFileSystemInteractor
+    public interface IFileSystemInteractor : IReport
     {
         void MakeDirectory(string path);
         void WriteStringToNewFile(string input, string filepath);
@@ -18,6 +18,14 @@ namespace Crawler
 
     public class FileSystemInteractor : IFileSystemInteractor
     {
+
+        public void PrintReport()
+        {
+           System.Console.Out.WriteLine("FileSystemInteractor Report:"); 
+           System.Console.Out.WriteLine("   _basePath = " + _basePath);
+           System.Console.Out.WriteLine("   Logger present? : " + (_log != null ? "True" : "False")); 
+        }
+
         public FileSystemInteractor(Log l):base()
         {
             _log = l;
@@ -130,20 +138,25 @@ namespace Crawler
             return cr;
         }
 
-        
+        public void PrintReport()
+        {
+            System.Console.Out.WriteLine("WebInteractor Report:");
+            System.Console.Out.WriteLine("  BaseUrl: " + this.BaseUrl);
+            System.Console.Out.WriteLine("   Logger present? : " + (_log != null ? "True" : "False")); 
+        }
     }
+
     public class CrawlResult
     {
         public int ReturnCode { get; set; }
         public string ReturnStatus { get; set; }
         public string Html { get; set; }
-
     }
     //The bot class will be given a site and a crawl level
     //It will begin by looking at the index.html file and finding all links
     //in that file and repeat up to crawl level
     //
-    public class Bot
+    public class Bot : IReport
     {
         private String _baseurl;
         private Website _website;
@@ -322,7 +335,15 @@ namespace Crawler
 
         }
 
-
-
+        public void PrintReport()
+        {
+            System.Console.Out.WriteLine("Bot Report:");
+            System.Console.Out.WriteLine("  _baseurl = " + this._baseurl);
+            System.Console.Out.WriteLine("  _website present? = " + (this._website != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  _log present? = " + (this._log != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  _dba present? = " + (this._dba != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  _webinteractor present? = " + (this._webinteractor != null ? "True" : "False"));
+            System.Console.Out.WriteLine("  _fsinteractor present? = " + (this._fsinteractor != null ? "True" : "False"));
+        }
     }
 }
